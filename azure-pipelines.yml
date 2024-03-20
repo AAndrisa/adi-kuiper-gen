@@ -1,0 +1,98 @@
+trigger:
+- staging/kuiper2.0
+
+pr:
+- staging/kuiper2.0
+
+jobs:
+- job: Kuiper_default_32
+  pool:
+    vmImage: ubuntu-latest
+  steps:
+  - checkout: self
+    fetchDepth: 1
+    submodules: true
+    clean: true
+    persistCredentials: true
+  - script: |
+      sudo apt install -y qemu-user-static
+      ci/modify_config.sh ./config "BRANCH_RPI_BOOT_FILES=rpi-5.15.y"
+      sudo bash build-docker.sh
+    displayName: 'Build image'
+  - task: PublishPipelineArtifact@1
+    condition: true
+    inputs:
+      targetPath: '$(Build.Repository.LocalPath)/kuiper-volume'
+      artifact: 'kuiper_volume_default_32'
+      publishLocation: 'pipeline'
+
+- job: Kuiper_default_64
+  pool:
+    vmImage: ubuntu-latest
+  steps:
+  - checkout: self
+    fetchDepth: 1
+    submodules: true
+    clean: true
+    persistCredentials: true
+  - script: |
+      sudo apt install -y qemu-user-static
+      ci/modify_config.sh ./config "TARGET_ARCHITECTURE=arm64 BRANCH_RPI_BOOT_FILES=rpi-5.15.y"
+      sudo bash build-docker.sh
+    displayName: 'Build image'
+  - task: PublishPipelineArtifact@1
+    condition: true
+    inputs:
+      targetPath: '$(Build.Repository.LocalPath)/kuiper-volume'
+      artifact: 'kuiper_volume_default_64'
+      publishLocation: 'pipeline'
+
+- job: Kuiper_full_32
+  condition: ne(variables['Build.Reason'], 'PullRequest')
+  pool:
+    vmImage: ubuntu-latest
+  timeoutInMinutes: 300
+  steps:
+  - checkout: self
+    fetchDepth: 1
+    submodules: true
+    clean: true
+    persistCredentials: true
+  - script: |
+      sudo apt install -y qemu-user-static
+      ci/modify_config.sh ./config "CONFIG_DESKTOP=y CONFIG_LIBIIO=y CONFIG_PYADI=y CONFIG_LIBM2K=y CONFIG_LIBAD9166_IIO=y CONFIG_LIBAD9361_IIO=y \
+      CONFIG_IIO_OSCILLOSCOPE=y CONFIG_IIO_FM_RADIO=y CONFIG_FRU_TOOLS=y CONFIG_JESD_EYE_SCAN_GTK=y CONFIG_COLORIMETER=y CONFIG_SCOPY=y \
+      CONFIG_GNURADIO=y CONFIG_GRM2K=y BRANCH_RPI_BOOT_FILES=rpi-5.15.y"
+      sudo bash build-docker.sh
+    displayName: 'Build image'
+  - task: PublishPipelineArtifact@1
+    condition: true
+    inputs:
+      targetPath: '$(Build.Repository.LocalPath)/kuiper-volume'
+      artifact: 'kuiper_volume_full_32'
+      publishLocation: 'pipeline'
+
+- job: Kuiper_full_64
+  condition: ne(variables['Build.Reason'], 'PullRequest')
+  pool:
+    vmImage: ubuntu-latest
+  timeoutInMinutes: 300
+  steps:
+  - checkout: self
+    fetchDepth: 1
+    submodules: true
+    clean: true
+    persistCredentials: true
+  - script: |
+      sudo apt install -y qemu-user-static
+      ci/modify_config.sh ./config "TARGET_ARCHITECTURE=arm64 CONFIG_DESKTOP=y CONFIG_LIBIIO=y CONFIG_PYADI=y CONFIG_LIBM2K=y CONFIG_LIBAD9166_IIO=y \
+      CONFIG_LIBAD9361_IIO=y CONFIG_IIO_OSCILLOSCOPE=y CONFIG_IIO_FM_RADIO=y CONFIG_FRU_TOOLS=y CONFIG_JESD_EYE_SCAN_GTK=y CONFIG_COLORIMETER=y \
+      CONFIG_SCOPY=y CONFIG_GNURADIO=y CONFIG_GRM2K=y BRANCH_RPI_BOOT_FILES=rpi-5.15.y"
+      sudo bash build-docker.sh
+    displayName: 'Build image'
+  - task: PublishPipelineArtifact@1
+    condition: true
+    inputs:
+      targetPath: '$(Build.Repository.LocalPath)/kuiper-volume'
+      artifact: 'kuiper_volume_full_64'
+      publishLocation: 'pipeline'
