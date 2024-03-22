@@ -11,12 +11,11 @@ pr:
 
 variables:
 - group: kuiper2.0_group_variables
-- ${{ if eq(variables['Build.Reason'], 'PullRequest')}}:
   - name: branch
-    value: $(System.PullRequest.TargetBranchName)
+    value: $[replace(variables['System.PullRequest.TargetBranchName'], 'refs/heads/', '')]
 - ${{ else }}:
   - name: branch
-    value: $(Build.SourceBranchName)
+    value: $[replace(variables['Build.SourceBranch'], 'refs/heads/', '')]
 jobs:
 - job: Kuiper_basic
   strategy:
@@ -45,7 +44,6 @@ jobs:
     persistCredentials: true
   - script: |
       # sudo apt-get install -y qemu-user-static
-      echo $(Build.SourceBranchName)
       branch_name=$(echo $(branch) | tr 'a-z' 'A-Z' | sed 's/[^[:alnum:]]/_/g')
       var_name="$(group_var)$branch_name"
       ci/modify_config.sh ./config ${!var_name}
