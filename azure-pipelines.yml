@@ -11,8 +11,9 @@ pr:
 
 variables:
 - group: kuiper2.0_group_variables
+- ${{ if eq(variables['Build.Reason'], 'PullRequest')}}:
   - name: branch
-    value: $[replace(variables['System.PullRequest.TargetBranchName'], 'refs/heads/', '')]
+    value: $[replace(variables['System.PullRequest.TargetBranch'], 'refs/heads/', '')]
 - ${{ else }}:
   - name: branch
     value: $[replace(variables['Build.SourceBranch'], 'refs/heads/', '')]
