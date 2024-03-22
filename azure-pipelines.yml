@@ -53,6 +53,7 @@ jobs:
       echo ${!var_name}
       ci/modify_config.sh ./config "${!var_name}"
       mkdir kuiper-volume
+      echo "sper sa mergi"
     displayName: 'Build image'
   - task: PublishPipelineArtifact@1
     condition: true
