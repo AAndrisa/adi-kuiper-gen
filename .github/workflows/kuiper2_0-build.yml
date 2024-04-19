@@ -15,6 +15,5 @@ jobs:
         arch: [32, 64]
         build_type: [basic, full]
       fail-fast: false
-    if: ${{ github.event_name == 'pull_request' && matrix.build_type == 'full' }}
     steps:
       - run: echo "Test pipeline"
