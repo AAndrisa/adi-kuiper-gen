@@ -20,6 +20,7 @@ jobs:
           - build_type: ${{ github.event_name == 'push' && 'full' }}
       fail-fast: false
     steps:
+      - uses: actions/checkout@v3
       - name: Set env variabiles
         run: |
           branch_name=$(echo $BRANCH | tr 'a-z' 'A-Z' | sed 's/[^[:alnum:]]/_/g')
