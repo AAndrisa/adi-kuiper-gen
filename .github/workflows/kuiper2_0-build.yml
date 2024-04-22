@@ -20,5 +20,5 @@ jobs:
       fail-fast: false
     steps:
       - run: |
-        echo "Test pipeline"
-        echo $TEST_VAR
+          echo "Test pipeline"
+          echo $TEST_VAR
