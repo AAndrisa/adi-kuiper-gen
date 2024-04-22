@@ -7,6 +7,9 @@ on:
     branches:
       - staging/ci-kuiper2.0
 
+env:
+  BRANCH: {{ github.GITHUB_REF_NAME }}
+
 jobs:
   Build:
     runs-on: ubuntu-latest
@@ -22,4 +25,4 @@ jobs:
       - run: |
           echo "Test pipeline"
           echo ${{ vars.TEST_VAR }}
-          echo $TEST_VAR1
+          echo $BRANCH
