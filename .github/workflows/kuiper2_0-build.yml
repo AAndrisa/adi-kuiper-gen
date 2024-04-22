@@ -24,5 +24,5 @@ jobs:
           echo "Test pipeline"
           branch_name=$(echo $BRANCH | tr 'a-z' 'A-Z' | sed 's/[^[:alnum:]]/_/g')
           export BRANCH=$branch_name
-          echo ${{ vars[format('{0}', ${BRANCH})] }}
+          echo ${{ vars[format('{0}', env.BRANCH )] }}
           echo ${{ vars.TEST_VAR1}}
