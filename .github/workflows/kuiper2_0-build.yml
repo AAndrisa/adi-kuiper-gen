@@ -10,7 +10,7 @@ on:
 jobs:
   Build:
     runs-on: ubuntu-latest
-    environment: {{ env.GITHUB_REF_NAME }}
+    environment: staging/ci-kuiper2.0
     strategy:
       matrix:
         arch: [32, 64]
