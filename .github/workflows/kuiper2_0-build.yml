@@ -12,7 +12,6 @@ env:
 jobs:
   Build:
     runs-on: ubuntu-latest
-    environment: {{ env.BRANCH }}
     strategy:
       matrix:
         arch: [32, 64]
@@ -23,5 +22,6 @@ jobs:
     steps:
       - run: |
           echo "Test pipeline"
-          echo ${{ vars.TEST_VAR }}
-          echo $BRANCH
+          branch_name=$(echo $BRANCH | tr 'a-z' 'A-Z' | sed 's/[^[:alnum:]]/_/g')
+          echo ${{ format('vars.{0}', $branch_name) }}
+          echo ${{ vars.TEST_VAR1}}
