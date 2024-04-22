@@ -24,11 +24,11 @@ jobs:
         run: |
           branch_name=$(echo $BRANCH | tr 'a-z' 'A-Z' | sed 's/[^[:alnum:]]/_/g')
           type=$( echo ${{ matrix.build_type }} | tr 'a-z' 'A-Z')
-          echo BRANCH_NAME="$branch_name"_"$type" >> $GITHUB_ENV
+          echo BRANCH_NAME="$branch_name"_"$type"_"${{ matrix.arch }}" >> $GITHUB_ENV
       - name: Build image
         run: |
-          echo "Test pipeline"
-          echo ${{ env.BRANCH_NAME }}
+          sudo apt-get install -y qemu-user-static
+          ci/modify_config.sh ./config "${{ vars[format('{0}', env.BRANCH_NAME )] }}"
+          # sudo bash build-docker.sh
+          # ls kuiper-volume/*.zip >/dev/null 2>&1 && exit 0 || exit 2
           echo ${{ vars[format('{0}', env.BRANCH_NAME )] }}
-          echo ${{ vars.TEST_VAR1}}
-        
