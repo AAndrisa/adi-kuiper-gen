@@ -23,8 +23,8 @@ jobs:
       - name: Set env variabiles
         run: |
           branch_name=$(echo $BRANCH | tr 'a-z' 'A-Z' | sed 's/[^[:alnum:]]/_/g')
-          echo $branch_name
-          echo "BRANCH_NAME=$branch_name" >> $GITHUB_ENV
+          type = $( echo ${{ matrix.build_type }} | tr 'a-z' 'A-Z')
+          echo BRANCH_NAME="$branch_name"_"$type" >> $GITHUB_ENV
       - name: Build image
         run: |
           echo "Test pipeline"
