@@ -10,7 +10,7 @@ on:
 jobs:
   Build:
     runs-on: ubuntu-latest
-    environment: kuiper_var
+    environment: {{ github.GITHUB_REF_NAME }}
     strategy:
       matrix:
         arch: [32, 64]
