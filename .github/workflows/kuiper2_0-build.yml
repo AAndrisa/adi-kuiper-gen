@@ -21,4 +21,4 @@ jobs:
     steps:
       - run: |
           echo "Test pipeline"
-          echo ${{ env.TEST_VAR }}
+          echo ${{ vars.TEST_VAR }}
