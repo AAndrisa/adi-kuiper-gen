@@ -20,11 +20,15 @@ jobs:
           - build_type: ${{ github.event_name == 'push' && 'full' }}
       fail-fast: false
     steps:
-      - run: |
-          echo "Test pipeline"
+      - name: Set env variabiles
+        run: |
           branch_name=$(echo $BRANCH | tr 'a-z' 'A-Z' | sed 's/[^[:alnum:]]/_/g')
           echo $branch_name
-          echo "::set-env name=BRANCH::$branch_name"
-          echo ${{ env.BRANCH }}
-          echo ${{ vars[format('{0}', env.BRANCH )] }}
+          echo "BRANCH_NAME=$branch_name" >> $GITHUB_ENV
+      - name: Build image
+        run: |
+          echo "Test pipeline"
+          echo ${{ env.BRANCH_NAME }}
+          echo ${{ vars[format('{0}', env.BRANCH_NAME )] }}
           echo ${{ vars.TEST_VAR1}}
+        
