@@ -23,6 +23,8 @@ jobs:
       - run: |
           echo "Test pipeline"
           branch_name=$(echo $BRANCH | tr 'a-z' 'A-Z' | sed 's/[^[:alnum:]]/_/g')
-          echo "BRANCH_NAME=$branch_name" >> $GITHUB_ENV 
+          echo $branch_name
+          echo "BRANCH_NAME=$branch_name" >> $GITHUB_ENV
+          echo ${{ env.BRANCH_NAME }}
           echo ${{ vars[format('{0}', env.BRANCH_NAME )] }}
           echo ${{ vars.TEST_VAR1}}
