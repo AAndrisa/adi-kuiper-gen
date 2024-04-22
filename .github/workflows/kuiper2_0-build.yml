@@ -23,5 +23,5 @@ jobs:
       - run: |
           echo "Test pipeline"
           branch_name=$(echo $BRANCH | tr 'a-z' 'A-Z' | sed 's/[^[:alnum:]]/_/g')
-          echo ${{ format('vars.{0}', $branch_name) }}
+          echo ${{ format('vars.{0}', 'STAGING_CI_KUIPER2_0') }}
           echo ${{ vars.TEST_VAR1}}
