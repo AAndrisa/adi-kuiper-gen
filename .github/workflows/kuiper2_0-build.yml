@@ -21,10 +21,14 @@ jobs:
       - uses: actions/checkout@v3
       - name: Set env variabiles
         run: |
+          echo $GITHUB_BASE_REF
+          echo $GITHUB_HEAD_REF
+          echo $GITHUB_REF_NAME
+          
           if [ "${{ github.event_name }}" == "pull_request" ]; then
             BRANCH=${{ github.event.pull_request.head.ref_name }}
           elif [ "${{ github.event_name }}" == "push" ]; then
-            BRANCH=${{ github.ref_name }}
+            BRANCH=$GITHUB_REF_NAME
           fi
           branch_name=$(echo $BRANCH | tr 'a-z' 'A-Z' | sed 's/[^[:alnum:]]/_/g')
           echo $branch_name
