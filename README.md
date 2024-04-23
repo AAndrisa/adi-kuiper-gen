@@ -3,7 +3,7 @@
 Tool used to create Debian OS images.
 
 ## Dependencies
-
+[![Kuiper2.0](https://github.com/AAndrisa/adi-kuiper-gen/actions/workflows/kuiper2_0-build.yml/badge.svg)](https://github.com/AAndrisa/adi-kuiper-gen/actions/workflows/kuiper2_0-build.yml)
 kuiper-gen runs on linux-based operating systems.
 To use `kuiper-gen` you need Docker. The Kuiper image is built inside Docker. 
 In case you don't have Docker installed or you can't build Kuiper with you current version of Docker,
