@@ -23,7 +23,7 @@ jobs:
         run: |
           if [ "${{ github.event_name }}" == "pull_request" ]; then
             BRANCH=$GITHUB_BASE_REF
-          elif
+          else
             BRANCH=$GITHUB_REF_NAME
           fi
           branch_name=$(echo $BRANCH | tr 'a-z' 'A-Z' | sed 's/[^[:alnum:]]/_/g')
