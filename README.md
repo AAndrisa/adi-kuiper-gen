@@ -1,5 +1,5 @@
 # kuiper-gen
-
+[![Kuiper2.0](https://github.com/AAndrisa/adi-kuiper-gen/actions/workflows/kuiper2_0-build.yml/badge.svg)](https://github.com/AAndrisa/adi-kuiper-gen/actions/workflows/kuiper2_0-build.yml)
 Tool used to create Debian OS images.
 
 ## Dependencies
