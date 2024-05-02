@@ -43,8 +43,10 @@ jobs:
           echo BRANCH_NAME="$branch_name"_"$type"_"${{ matrix.arch }}" >> $GITHUB_ENV
       - name: Build image
         run: |
-          #sudo apt-get update
-          #sudo apt-get install -y qemu-user-static
+          if [ "${{ matrix.os }}" == "ubuntu-latest" ]; then
+            sudo apt-get update
+            sudo apt-get install -y qemu-user-static
+          fi
           #ls -al
           ci/modify_config.sh ./config "${{ vars[format('{0}', env.BRANCH_NAME )] }}"
           #sudo bash build-docker.sh
