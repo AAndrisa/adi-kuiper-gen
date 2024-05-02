@@ -28,7 +28,7 @@ jobs:
             os: ubuntu-latest
           - arch: 64
             build_type: full
-            os: self-hosted
+            os: [self-hosted, kuiper]
         exclude:
           - build_type: ${{ github.event_name == 'pull_request' && 'full' }}
       fail-fast: false
