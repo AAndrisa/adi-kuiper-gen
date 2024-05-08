@@ -25,10 +25,10 @@ jobs:
             os: ubuntu-latest
           - arch: 32
             build_type: full
-            os: ubuntu-latest
+            os: [self-hosted, kuiper]
           - arch: 64
             build_type: full
-            os: [self-hosted, kuiper]
+            os: ubuntu-latest
         exclude:
           - build_type: ${{ github.event_name == 'pull_request' && 'full' }}
       fail-fast: false
