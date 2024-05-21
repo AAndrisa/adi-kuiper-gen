@@ -33,15 +33,7 @@ jobs:
           sudo apt-get install -y libguestfs-tools
           ls -al /dev/sda*
           ci/modify_config.sh ./config "${{ vars[format('{0}', env.BRANCH_NAME )] }}"
-          sudo bash build-docker.sh
-          sudo chmod 777 -R kuiper-volume
-          cd kuiper-volume
-          ls -al
-          echo "in folder"
-          #ls kuiper-volume/*.zip >/dev/null 2>&1 && exit 0 || exit 2
-          unzip image_2024-05-17-ADI-Kuiper-Linux-armhf.zip
-          guestfish --ro -a image_2024-05-17-ADI-Kuiper-Linux-armhf.img -m /dev/sda5:/ tar-out / - | docker import - kuiper_image
-          docker images ls
+          docker version
 
       - name: Upload image
         if: always()
