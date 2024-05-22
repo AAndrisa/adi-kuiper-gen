@@ -31,7 +31,7 @@ jobs:
           ls -al /dev/sda*
           ci/modify_config.sh ./config "${{ vars[format('{0}', env.BRANCH_NAME )] }}"
           docker version
-          docker buildx ls
+          docker run --rm -t --privileged tfcollins/libiio_debian_bookworm-ci-arm-ppc:latest /bin/bash -c "ls /home/"
       - name: Upload image
         if: always()
         uses: actions/upload-artifact@v4
