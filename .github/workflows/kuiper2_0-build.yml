@@ -28,10 +28,9 @@ jobs:
           echo BRANCH_NAME="$branch_name"_"$type"_"${{ matrix.arch }}" >> $GITHUB_ENV
       - name: Build image
         run: |
-          ls -al /dev/sda*
           ci/modify_config.sh ./config "${{ vars[format('{0}', env.BRANCH_NAME )] }}"
-          docker version
-          docker run --rm -t --privileged tfcollins/libiio_debian_bookworm-ci-arm-ppc:latest /bin/bash -c "ls /home/"
+          sudo bash build-docker.sh
+          ls kuiper-volume/*.zip >/dev/null 2>&1 && exit 0 || exit 2
       - name: Upload image
         if: always()
         uses: actions/upload-artifact@v4
