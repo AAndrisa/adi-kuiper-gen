@@ -28,6 +28,8 @@ jobs:
           echo BRANCH_NAME="$branch_name"_"$type"_"${{ matrix.arch }}" >> $GITHUB_ENV
       - name: Build image
         run: |
+          sudo apt-get update
+          sudo apt-get install -y qemu-user-static
           ci/modify_config.sh ./config "${{ vars[format('{0}', env.BRANCH_NAME )] }}"
           sudo bash build-docker.sh
           ls kuiper-volume/*.zip >/dev/null 2>&1 && exit 0 || exit 2
