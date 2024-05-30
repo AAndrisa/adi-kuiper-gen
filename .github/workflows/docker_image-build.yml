@@ -1,0 +1,24 @@
+name: docker image build
+on:
+  push:
+    branches:
+      - staging/ci-kuiper2.0
+  pull_request:
+    branches:
+      - staging/ci-kuiper2.0
+env:
+ BRANCH: ${{ github.head_ref || github.ref_name }} 
+
+jobs:
+  Build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download image
+        uses: actions/download-artifact@v4
+        with:
+          name: kuiper_basic_32
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          repository: AAndrisa/adi-kuiper-gen
+          run-id: 9301315692
+      - name: Print
+        run: ls -al
