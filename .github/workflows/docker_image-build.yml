@@ -67,4 +67,4 @@ jobs:
           tags: aandrisa/kuiper32_basic:latest
           file: Dockerfile
           context: .
-          platforms: linux/arm,linux/arm64,linux/ppc64le,linux/s390x
+          platforms: linux/arm,linux/arm64,linux/amd64
