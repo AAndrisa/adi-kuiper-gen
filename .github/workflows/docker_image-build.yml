@@ -13,6 +13,12 @@ jobs:
   Build:
     runs-on: ubuntu-latest
     steps:
+      - name: Login to DockerHub
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_PASSWORD }}
+
       - name: Download image
         uses: actions/download-artifact@v4
         with:
@@ -20,7 +26,8 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           repository: AAndrisa/adi-kuiper-gen
           run-id: 9301315692
-      - name: Print
+
+      - name: Create .tar file
         run: |
           ls -al
           unzip image_2024-05-30-ADI-Kuiper-Linux-armhf.zip -d .
@@ -31,12 +38,31 @@ jobs:
           sudo mount "${loop_device}p2" ./rootfs
           (
             cd rootfs
-            sudo tar -cvf ../kuiper_image.tar .
+            sudo tar -cf ../kuiper_image.tar .
           )
           sudo umount ./rootfs
           echo "FROM scratch" >> Dockerfile
           echo "ADD kuiper_image.tar /" >> Dockerfile
           echo "CMD [\"/bin/bash\"]" >> Dockerfile
-          docker build -t kuiper_image_test .
-          docker images
+          # docker build -t kuiper_image_test .
+          # docker images
           sudo losetup -d ${loop_device}
+
+      - name: Test build
+        run: |
+          docker buildx create --name armbuilder
+          docker buildx use armbuilder
+          docker buildx build --builder armbuilder -t test_kuiper_image --platform linux/arm --load .
+          ARCH_CHECK=$(docker run --platform linux/arm test_kuiper_image:latest uname -a)
+          echo "$ARCH_CHECK"
+          echo "$ARCH_CHECK" | grep -i aarch64 || exit 1
+
+      - name: Build and push
+        id: docker_build
+        uses: docker/build-push-action@v2
+        with:
+          push: true
+          tags: aandrisa/kuiper32_basic:latest
+          file: Dockerfile
+          context: .
+          platforms: linux/arm
