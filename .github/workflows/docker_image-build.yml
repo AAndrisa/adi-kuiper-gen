@@ -32,8 +32,10 @@ jobs:
             cd rootfs
             sudo tar -cf ../kuiper_image.tar .
           )
+          sudo umount ./rootfs
           echo "FROM scratch" >> Dockerfile
           echo "ADD kuiper_image.tar /" >> Dockerfile
           echo "CMD [\"/bin/bash\"]" >> Dockerfile
           docker build -t kuiper_image_test .
           docker images
+          losetup -d ${loop_device}
