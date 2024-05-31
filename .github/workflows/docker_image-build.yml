@@ -21,4 +21,9 @@ jobs:
           repository: AAndrisa/adi-kuiper-gen
           run-id: 9301315692
       - name: Print
-        run: ls -al
+        run: |
+          ls -al
+          unzip image_2024-05-30-ADI-Kuiper-Linux-armhf.zip -d .
+          sudo losetup -fP image_2024-05-30-ADI-Kuiper-Linux-armhf.img
+          sudo losetup -l
+          lsblk
