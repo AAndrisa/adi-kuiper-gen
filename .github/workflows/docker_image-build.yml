@@ -31,7 +31,7 @@ jobs:
           sudo mount "${loop_device}p2" ./rootfs
           (
             cd rootfs
-            sudo tar -cf ../kuiper_image.tar .
+            sudo tar -cvf ../kuiper_image.tar .
           )
           sudo umount ./rootfs
           echo "FROM scratch" >> Dockerfile
