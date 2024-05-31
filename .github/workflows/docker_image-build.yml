@@ -25,6 +25,7 @@ jobs:
           ls -al
           unzip image_2024-05-30-ADI-Kuiper-Linux-armhf.zip -d .
           sudo losetup -fP image_2024-05-30-ADI-Kuiper-Linux-armhf.img
+          lsblk
           loop_device=$(losetup --list | grep "$(basename "ADI-Kuiper-Linux.*.img")" | cut -f1 -d' ')
           mkdir rootfs
           sudo mount "${loop_device}p2" ./rootfs
@@ -38,4 +39,4 @@ jobs:
           echo "CMD [\"/bin/bash\"]" >> Dockerfile
           docker build -t kuiper_image_test .
           docker images
-          losetup -d ${loop_device}
+          sudo losetup -d ${loop_device}
