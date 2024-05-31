@@ -57,7 +57,7 @@ jobs:
           docker buildx build --builder armbuilder -t test_kuiper_image --platform linux/arm --load .
           ARCH_CHECK=$(docker run --platform linux/arm test_kuiper_image:latest uname -a)
           echo "$ARCH_CHECK"
-          echo "$ARCH_CHECK" | grep -i aarch64 || exit 1
+          echo "$ARCH_CHECK" | grep -i armv7l || exit 1
 
       - name: Build and push
         id: docker_build
