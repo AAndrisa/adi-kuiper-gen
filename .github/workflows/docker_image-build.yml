@@ -1,11 +1,7 @@
 name: docker image build
 on:
-  push:
-    branches:
-      - staging/ci-kuiper2.0
-  pull_request:
-    branches:
-      - staging/ci-kuiper2.0
+  workflow_dispatch:
+
 env:
  BRANCH: ${{ github.head_ref || github.ref_name }} 
 
@@ -25,15 +21,15 @@ jobs:
           name: kuiper_basic_32
           github-token: ${{ secrets.GITHUB_TOKEN }}
           repository: AAndrisa/adi-kuiper-gen
-          run-id: 9301315692
+          run-id: 9379617263
 
       - name: Create .tar file
         run: |
           sudo apt-get update
           sudo apt-get install -y qemu-user-static
           ls -al
-          unzip image_2024-05-30-ADI-Kuiper-Linux-armhf.zip -d .
-          sudo losetup -fP image_2024-05-30-ADI-Kuiper-Linux-armhf.img
+          unzip image_2024-06-05-ADI-Kuiper-Linux-armhf.zip -d .
+          sudo losetup -fP image_2024-06-05-ADI-Kuiper-Linux-armhf.img
           lsblk
           loop_device=$(losetup --list | grep "$(basename "ADI-Kuiper-Linux.*.img")" | cut -f1 -d' ')
           mkdir rootfs
