@@ -1,6 +1,11 @@
 name: docker image build
 on:
-  workflow_dispatch:
+  push:
+    branches:
+      - staging/ci-kuiper2.0
+  pull_request:
+    branches:
+      - staging/ci-kuiper2.0
 
 env:
  BRANCH: ${{ github.head_ref || github.ref_name }} 
