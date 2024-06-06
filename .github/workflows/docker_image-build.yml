@@ -21,46 +21,45 @@ jobs:
           name: kuiper_basic_32
           github-token: ${{ secrets.GITHUB_TOKEN }}
           repository: AAndrisa/adi-kuiper-gen
-          run-id: 9379617263
 
       - name: Create .tar file
         run: |
-          sudo apt-get update
-          sudo apt-get install -y qemu-user-static
+          # sudo apt-get update
+          # sudo apt-get install -y qemu-user-static
           ls -al
-          unzip image_2024-06-05-ADI-Kuiper-Linux-armhf.zip -d .
-          sudo losetup -fP image_2024-06-05-ADI-Kuiper-Linux-armhf.img
-          lsblk
-          loop_device=$(losetup --list | grep "$(basename "ADI-Kuiper-Linux.*.img")" | cut -f1 -d' ')
-          mkdir rootfs
-          sudo mount "${loop_device}p2" ./rootfs
-          (
-            cd rootfs
-            sudo tar -cf ../kuiper_image.tar .
-          )
-          sudo umount ./rootfs
-          echo "FROM scratch" >> Dockerfile
-          echo "ADD kuiper_image.tar /" >> Dockerfile
-          echo "CMD [\"/bin/bash\"]" >> Dockerfile
-          # docker build -t kuiper_image_test .
-          # docker images
-          sudo losetup -d ${loop_device}
+          # unzip image_2024-06-05-ADI-Kuiper-Linux-armhf.zip -d .
+          # sudo losetup -fP image_2024-06-05-ADI-Kuiper-Linux-armhf.img
+          # lsblk
+          # loop_device=$(losetup --list | grep "$(basename "ADI-Kuiper-Linux.*.img")" | cut -f1 -d' ')
+          # mkdir rootfs
+          # sudo mount "${loop_device}p2" ./rootfs
+          # (
+          #   cd rootfs
+          #   sudo tar -cf ../kuiper_image.tar .
+          # )
+          # sudo umount ./rootfs
+          # echo "FROM scratch" >> Dockerfile
+          # echo "ADD kuiper_image.tar /" >> Dockerfile
+          # echo "CMD [\"/bin/bash\"]" >> Dockerfile
+          # # docker build -t kuiper_image_test .
+          # # docker images
+          # sudo losetup -d ${loop_device}
 
-      - name: Test build
-        run: |
-          docker buildx create --name armbuilder
-          docker buildx use armbuilder
-          docker buildx build --builder armbuilder -t test_kuiper_image --platform linux/arm --load .
-          ARCH_CHECK=$(docker run --platform linux/arm test_kuiper_image:latest uname -a)
-          echo "$ARCH_CHECK"
-          echo "$ARCH_CHECK" | grep -i armv7l || exit 1
+      # - name: Test build
+      #   run: |
+      #     docker buildx create --name armbuilder
+      #     docker buildx use armbuilder
+      #     docker buildx build --builder armbuilder -t test_kuiper_image --platform linux/arm --load .
+      #     ARCH_CHECK=$(docker run --platform linux/arm test_kuiper_image:latest uname -a)
+      #     echo "$ARCH_CHECK"
+      #     echo "$ARCH_CHECK" | grep -i armv7l || exit 1
 
-      - name: Build and push
-        id: docker_build
-        uses: docker/build-push-action@v2
-        with:
-          push: true
-          tags: aandrisa/kuiper32_basic:latest
-          file: Dockerfile
-          context: .
-          platforms: linux/arm,linux/arm64,linux/amd64
+      # - name: Build and push
+      #   id: docker_build
+      #   uses: docker/build-push-action@v2
+      #   with:
+      #     push: true
+      #     tags: aandrisa/kuiper32_basic:latest
+      #     file: Dockerfile
+      #     context: .
+      #     platforms: linux/arm,linux/arm64,linux/amd64
