@@ -21,10 +21,13 @@ jobs:
           password: ${{ secrets.DOCKERHUB_PASSWORD }}
 
       - name: Download image
-        uses: actions/download-artifact@v4
+        uses: dawidd6/action-download-artifact@v5
         with:
-          name: kuiper_basic_32
           github-token: ${{ secrets.GITHUB_TOKEN }}
+          workflow: kuiper2_0-build.yml
+          workflow_search: false
+          branch: staging/ci-kuiper2.0
+          name: kuiper_basic_32
           repository: AAndrisa/adi-kuiper-gen
 
       - name: Create .tar file
