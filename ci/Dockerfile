@@ -1,3 +1,2 @@
-FROM scratch
-ADD kuiper_image.tar /
-CMD ["/bin/bash"]
+FROM ubuntu:20.04
+CMD echo "Running on $(uname -m)"
