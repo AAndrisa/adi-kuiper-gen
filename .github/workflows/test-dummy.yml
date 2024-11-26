@@ -1,0 +1,17 @@
+name: test var
+on:
+  push:
+    branches:
+      - test_m
+    tags:
+        - v*
+
+jobs:
+  Build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set env variabiles
+        run: |
+          echo ${{ github.ref_name }}
+          echo ${{ github.event_name }}
+          echo ${{ github.ref }}
