@@ -1,0 +1,24 @@
+name: test var
+on:
+  push:
+    branches:
+      - test_m
+    tags:
+        - v*
+
+jobs:
+  Build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set env variabiles
+        run: |
+          echo ${{ github.ref_name }}
+          echo ${{ github.event_name }}
+          if [[ "${{ github.ref }}" == refs/tags/v* ]]; then
+            echo BRANCH=$( echo ${{ github.ref_name}} | sed 's/v//' ) >> $GITHUB_ENV
+          else
+            echo BRANCH=${{ github.ref_name }} >> $GITHUB_ENV
+          fi
+      - name: Print env variabiles
+        run: |
+            echo ${{ env.BRANCH }}
